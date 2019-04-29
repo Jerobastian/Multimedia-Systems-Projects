@@ -13,4 +13,4 @@ IT NEEDS SM.JCC.Biblioteca TO WORK.
 
 ## SM.JCC.Biblioteca
 
-This is a library that contains all the graphical functions.
+This is a library that contains all the graphical functions and also some forms.
