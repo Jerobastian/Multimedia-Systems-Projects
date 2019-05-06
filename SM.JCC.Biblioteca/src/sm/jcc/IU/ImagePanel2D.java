@@ -1,5 +1,6 @@
 package sm.jcc.IU;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -28,6 +29,13 @@ public class ImagePanel2D extends Lienzo2D
     public void setImage(BufferedImage newImage)
     {
         this.image = newImage;
+        if(image!=null)
+            setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
+    }
+    
+    public BufferedImage getImage()
+    {
+        return this.image;
     }
     
     public BufferedImage getImage(boolean drawVector)
@@ -36,7 +44,7 @@ public class ImagePanel2D extends Lienzo2D
         {
             int w = this.getWidth();
             int h = this.getHeight();
-            BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+            BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = bi.createGraphics();
             paint(g);
             
