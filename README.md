@@ -17,6 +17,11 @@ A project in Java with the purpose to create an aplication to edit images, like 
 filters too.
 IT NEEDS SM.JCC.Biblioteca TO WORK.
 
+## MultiProject
+
+An ampliation of the PSProject which can reproduce multimedia like audio and video.
+IT NEEDS SM.JCC.Biblioteca TO WORK.
+
 ## SM.JCC.Biblioteca
 
 This is a library that contains all the graphical functions and also some forms.
