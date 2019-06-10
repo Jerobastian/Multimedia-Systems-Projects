@@ -32,7 +32,9 @@ import sm.image.KernelProducer;
 import sm.image.LookupTableProducer;
 import sm.image.TintOp;
 import sm.jcc.IU.Lienzo2D;
+import sm.jcc.image.SepiaOp;
 import sm.jcc.image.SinOp;
+import sm.jcc.image.UmbralOp;
 import sm.sound.SMClipPlayer;
 import sm.sound.SMPlayer;
 import sm.sound.SMRecorder;
@@ -155,7 +157,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
         brightnessMenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(900, 500));
+        setPreferredSize(new java.awt.Dimension(1750, 1000));
 
         topPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
@@ -316,7 +318,6 @@ public class VentanaPrincipal extends javax.swing.JFrame
         topPanel.add(play);
 
         stop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/stop24x24.png"))); // NOI18N
-        stop.setLabel("");
         stop.setMaximumSize(new java.awt.Dimension(30, 30));
         stop.setMinimumSize(new java.awt.Dimension(30, 30));
         stop.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -335,7 +336,6 @@ public class VentanaPrincipal extends javax.swing.JFrame
         topPanel.add(playlist);
 
         record.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/record24x24.png"))); // NOI18N
-        record.setLabel("");
         record.setMaximumSize(new java.awt.Dimension(30, 30));
         record.setMinimumSize(new java.awt.Dimension(30, 30));
         record.setPreferredSize(new java.awt.Dimension(30, 30));
@@ -439,6 +439,11 @@ public class VentanaPrincipal extends javax.swing.JFrame
         sepia.setMaximumSize(new java.awt.Dimension(45, 35));
         sepia.setMinimumSize(new java.awt.Dimension(45, 35));
         sepia.setPreferredSize(new java.awt.Dimension(45, 35));
+        sepia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sepiaActionPerformed(evt);
+            }
+        });
         sinusoidalPanel.add(sepia);
 
         tint.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/tintar.png"))); // NOI18N
@@ -573,6 +578,19 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
         umbral.setMaximum(255);
         umbral.setValue(128);
+        umbral.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                umbralStateChanged(evt);
+            }
+        });
+        umbral.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                umbralFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                umbralFocusLost(evt);
+            }
+        });
         umbralPanel.add(umbral);
 
         atributesPanel.add(umbralPanel);
@@ -665,7 +683,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
                 vi.assignParent(this);
                 vi.getLienzo().setImage(img);
                 this.desktop.add(vi);
-                vi.setTitle(f.getName());
+                vi.setTitle(f.getName() + "[RGB]");
                 vi.setVisible(true);
             }
             catch(IOException ex)
@@ -705,6 +723,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
     {
         VentanaInterna vi = new VentanaInterna();
         this.desktop.add(vi);
+        vi.setTitle("Nueva [RGB]");
         vi.assignParent(this);
         vi.setVisible(true);
     }
@@ -722,7 +741,6 @@ public class VentanaPrincipal extends javax.swing.JFrame
                {
                    LookupTable lt = LookupTableProducer.createLookupTable(type);
                    LookupOp lop = new LookupOp(lt, null);
-                   // Imagen origen y destino iguales
                    lop.filter(imgSource , imgSource);
                    vi.repaint();
                }
@@ -793,6 +811,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void drawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_drawActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -806,6 +825,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void lineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -819,6 +839,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void rectangleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rectangleActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -832,6 +853,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void ovalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ovalActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -845,6 +867,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void strokeStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_strokeStateChanged
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -854,7 +877,8 @@ public class VentanaPrincipal extends javax.swing.JFrame
     }//GEN-LAST:event_strokeStateChanged
 
     private void fillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fillActionPerformed
-         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -864,6 +888,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void transparencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transparencyActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -873,6 +898,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void renderingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_renderingActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -882,6 +908,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void colorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorsActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -929,6 +956,7 @@ public class VentanaPrincipal extends javax.swing.JFrame
 
     private void editModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editModeActionPerformed
         VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
         if(vi != null)
         {
             Lienzo2D lienzo = vi.getLienzo();
@@ -1222,7 +1250,47 @@ public class VentanaPrincipal extends javax.swing.JFrame
             if(img != null)
             {
                 EqualizationOp ecualization = new EqualizationOp();
-                ecualization.filter(img, img);
+                
+                ColorSpace cs;
+                BufferedImage imgDest;
+                if(img.getColorModel().getColorSpace().isCS_sRGB())
+                {
+                    cs = ColorSpace.getInstance(ColorSpace.CS_PYCC);
+                    ColorConvertOp cop = new ColorConvertOp(cs, null);
+                    imgDest = cop.filter(img, null);
+                }
+                else
+                {
+                    imgDest = img;
+                }
+                
+                if(img.getRaster().getNumBands() > 1)
+                {
+                    cs = ColorSpace.getInstance(ColorSpace.CS_GRAY);
+
+                    ComponentColorModel cm = new ComponentColorModel(cs,
+                            false, false,
+                            Transparency.OPAQUE,
+                            DataBuffer.TYPE_BYTE);
+                    int bandList[] = {0}; 
+                    WritableRaster bandRaster = (WritableRaster)
+                            imgDest.getRaster().createWritableChild(0,0,
+                            imgDest.getWidth(), imgDest.getHeight(),
+                            0, 0, bandList);
+                    BufferedImage imgBanda = new BufferedImage(cm, 
+                            bandRaster, false, null);
+                    ecualization.filter(imgBanda, imgBanda);
+                    if(img.getColorModel().getColorSpace().isCS_sRGB())
+                    {
+                        cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
+                        ColorConvertOp cop = new ColorConvertOp(cs, null);
+                        cop.filter(imgDest, img);
+                    }
+                }
+                else
+                {
+                    ecualization.filter(imgDest, img);
+                }
             }
         }
         
@@ -1268,7 +1336,6 @@ public class VentanaPrincipal extends javax.swing.JFrame
                 this.recorder = new SMSoundRecorder(this.recordFile);
                 ((SMSoundRecorder) this.recorder).addLineListener(new AudioManager());
                 this.recorder.record();
-                
             }
             catch (IOException ex)
             {
@@ -1291,6 +1358,59 @@ public class VentanaPrincipal extends javax.swing.JFrame
             ((SMSoundPlayer)this.player).addLineListener(new AudioManager());
         }
     }//GEN-LAST:event_playlistActionPerformed
+
+    private void sepiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sepiaActionPerformed
+        VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+        
+        if(vi != null)
+        {
+            BufferedImage img = vi.getLienzo().getImage();
+            if(img != null)
+            {
+                SepiaOp sepiaop = new SepiaOp();
+                sepiaop.filter(img, img);
+            }
+        }
+        
+        repaint();
+    }//GEN-LAST:event_sepiaActionPerformed
+
+    private void umbralFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_umbralFocusGained
+        VentanaInterna vi = (VentanaInterna) this.desktop.getSelectedFrame();
+         
+        if(vi!=null)
+        {
+           ColorModel cm = vi.getLienzo().getImage().getColorModel();
+           WritableRaster raster = vi.getLienzo().getImage().copyData(null);
+           boolean alfaPre = vi.getLienzo().getImage().isAlphaPremultiplied();
+           this.image = new BufferedImage(cm,raster,alfaPre,null);
+        }
+    }//GEN-LAST:event_umbralFocusGained
+
+    private void umbralFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_umbralFocusLost
+        this.image = null;
+        this.umbral.setValue(0);
+    }//GEN-LAST:event_umbralFocusLost
+
+    private void umbralStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_umbralStateChanged
+        VentanaInterna vi = (VentanaInterna)this.desktop.getSelectedFrame();
+        
+        if(vi!=null && this.image!=null && this.umbral.hasFocus())
+        {       
+            try
+            {
+                UmbralOp umbralOp;
+                umbralOp = new UmbralOp(this.umbral.getValue());
+                
+                umbralOp.filter(image, vi.getLienzo().getImage());
+                repaint();
+            }
+            catch(IllegalArgumentException e)
+            {
+                System.err.println(e.getLocalizedMessage());
+            }
+        }
+    }//GEN-LAST:event_umbralStateChanged
     
     public static void main(String args[])
     {
