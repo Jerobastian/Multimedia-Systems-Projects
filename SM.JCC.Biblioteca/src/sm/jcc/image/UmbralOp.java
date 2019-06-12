@@ -2,7 +2,6 @@ package sm.jcc.image;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import static java.lang.Math.min;
 import sm.image.BufferedImageOpAdapter;
 
 /**

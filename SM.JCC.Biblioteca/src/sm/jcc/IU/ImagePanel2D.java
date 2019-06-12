@@ -23,8 +23,18 @@ public class ImagePanel2D extends Lienzo2D
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
-        if(image!=null) g.drawImage(image,0,0,this);
-    }    
+        if(this.image != null)
+            g.drawImage(this.image,0,0,this);
+    }
+    
+    @Override
+    public void setAttributes(Graphics2D g)
+    {
+        super.setAttributes(g);
+        
+        if(this.image != null)
+            g.clipRect(getX(), getY(), this.image.getWidth(), this.image.getHeight());
+    }
         
     public void setImage(BufferedImage newImage)
     {
@@ -33,6 +43,10 @@ public class ImagePanel2D extends Lienzo2D
             setPreferredSize(new Dimension(image.getWidth(),image.getHeight()));
     }
     
+    /**
+     * 
+     * @return BufferedImage image Imagen actual del panel
+     */
     public BufferedImage getImage()
     {
         return this.image;

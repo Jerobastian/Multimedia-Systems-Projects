@@ -29,6 +29,20 @@ public class VentanaInterna extends javax.swing.JInternalFrame
         lienzo.setImage(blank);
     }
     
+    public VentanaInterna(int width, int height)
+    {
+        initComponents();
+        
+        BufferedImage blank = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        
+        Graphics2D g = blank.createGraphics();
+        g.setPaint(Color.WHITE);
+
+        g.fillRect(0, 0, blank.getWidth(), blank.getHeight());
+
+        lienzo.setImage(blank);
+    }
+    
     public void assignParent(VentanaPrincipal m)
     {
         this.main = m;
@@ -97,27 +111,27 @@ public class VentanaInterna extends javax.swing.JInternalFrame
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         int color = 0;
         
-        if(this.lienzo.getActiveColor().equals(new Color(0, 0, 0)))
+        if(this.lienzo.getActiveColor().equals(Color.BLACK))
         {
             color = 0;
         }
-        else if(this.lienzo.getActiveColor().equals(new Color(255,0,51)))
+        else if(this.lienzo.getActiveColor().equals(Color.RED))
         {
             color = 1;
         }
-        else if(this.lienzo.getActiveColor().equals(new Color(0,51,255)))
+        else if(this.lienzo.getActiveColor().equals(Color.BLUE))
         {
             color = 2;
         }
-        else if(this.lienzo.getActiveColor().equals(new Color(255,255,255)))
+        else if(this.lienzo.getActiveColor().equals(Color.WHITE))
         {
             color = 3;
         }
-        else if(this.lienzo.getActiveColor().equals(new Color(255,255,0)))
+        else if(this.lienzo.getActiveColor().equals(Color.YELLOW))
         {
             color = 4;
         }
-        else if(this.lienzo.getActiveColor().equals(new Color(51,255,0)))
+        else if(this.lienzo.getActiveColor().equals(Color.GREEN))
         {
             color = 5;
         }

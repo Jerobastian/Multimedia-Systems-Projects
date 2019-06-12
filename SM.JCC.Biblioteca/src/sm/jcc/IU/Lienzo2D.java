@@ -67,8 +67,6 @@ public class Lienzo2D extends javax.swing.JPanel
         Paint relleno;
         relleno = this.activeColor;
         g2d.setPaint(relleno);
-        
-        
 
         if(this.transparency)
         {
